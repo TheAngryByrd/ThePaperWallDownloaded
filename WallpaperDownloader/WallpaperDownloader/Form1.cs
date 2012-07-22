@@ -34,11 +34,25 @@ namespace WallpaperDownloader
             button1.Enabled = false;
             
             List<Task> downloads = new List<Task>();
+
+            SemaphoreSlim semaphore = new SemaphoreSlim(2, 3); ;
           
             foreach (Theme obj in this.checkedListBox1.CheckedItems)
             {
+                await semaphore.WaitAsync();
+
                 var program = new Core.Program();
-                var task = Task.Factory.StartNew(() => program.Run(obj.Name, obj.FeedUrl));
+                var task = Task.Run(async () =>{
+                    try
+                    {
+                        await program.Run(obj.Name, obj.FeedUrl);
+                    }
+                    finally
+                    {
+                        semaphore.Release();
+                    }
+                   
+                });
                 downloads.Add(task);
 
             }
@@ -53,6 +67,14 @@ namespace WallpaperDownloader
             for (int i = 0; i < checkedListBox1.Items.Count; i++)
             {
                 checkedListBox1.SetItemChecked(i, true);
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < checkedListBox1.Items.Count; i++)
+            {
+                checkedListBox1.SetItemChecked(i, false);
             }
         }
 

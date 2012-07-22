@@ -10,7 +10,7 @@ namespace Core
     public class Program
     {
         
-        public void Run(string themeName, string feedUrl)
+        public async Task Run(string themeName, string feedUrl)
         {
              string themeDirectory = @"c:\wallpapers\" + themeName;
             var rssReader = new RssReader();
@@ -35,7 +35,8 @@ namespace Core
                 var tasks = manager.GenerateDownloadTasks(themeDirectory, image);
                 taks.Add(tasks);
             }
-            Task.WaitAll(taks.ToArray());
+            await Task.WhenAll(taks);
+            
         }
     }
 }
