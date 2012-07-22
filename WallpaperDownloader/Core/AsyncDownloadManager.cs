@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Models;
 
 namespace Core
 {
@@ -14,11 +15,10 @@ namespace Core
             _imageDownloader = imageDownloader;
         }
 
-        public List<Task> GenerateDownloadTasks(string directory, List<PWImage> images)
+        public Task GenerateDownloadTasks(string directory, PWImage image)
         {
-            List<Task> tasks = images.Select(image => Task.Factory.StartNew(() => _imageDownloader.Download(directory +"\\" + image.imageName, image.imageUrl))).ToList();
 
-            return tasks;
+            return Task.Factory.StartNew(() => _imageDownloader.Download(directory +"\\" + image.imageName, image.imageUrl));
         }
 
         public void RunTasks(Task[] tasks)

@@ -60,6 +60,7 @@
     <Compile Include="AsyncDownloadManagerShould.cs" />
     <Compile Include="ImageFilterShould.cs" />
     <Compile Include="PWImageShould.cs" />
+    <Compile Include="ThemeServiceShould.cs" />
     <Compile Include="WebClientImageDownloaderShould.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Core.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
 
@@ -19,9 +20,9 @@ namespace Core.Tests
             var images = new List<PWImage>();
             images.Add(new PWImage());
             images.Add(new PWImage());
-             List<Task> downloads = downloadManager.GenerateDownloadTasks(directory, images);
+            var downloads = downloadManager.GenerateDownloadTasks(directory, null);
             
-             Assert.AreEqual(2, downloads.Count);
+             Assert.AreEqual(2, 1);
           
         }
 

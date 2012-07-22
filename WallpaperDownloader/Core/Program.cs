@@ -9,26 +9,33 @@ namespace Core
 {
     public class Program
     {
+        
         public void Run(string themeName, string feedUrl)
         {
+             string themeDirectory = @"c:\wallpapers\" + themeName;
             var rssReader = new RssReader();
             var feed = rssReader.GetFeed(feedUrl);
             var parser = new PaperWallRssParser();
             var pwImages = parser.GetImageUrls(feed);
 
             var imageFilter = new ImageFilter();
-            var themeDirectory = @"c:\wallpapers\"+ themeName;
+
+            var dir = Directory.CreateDirectory(themeDirectory);
 
             
 
-            pwImages = imageFilter.RemovePreviouslyDownloadedImages(pwImages, new DirectoryInfo(themeDirectory).EnumerateFiles());
-            
-            var webClient = new WebClientWrapper();
-            var imageDownloader = new WebClientImageDownloader(webClient);
-            var manager = new AsyncDownloadManager(imageDownloader);
+            pwImages = imageFilter.RemovePreviouslyDownloadedImages(pwImages, dir.EnumerateFiles());
+            List<Task> taks = new List<Task>();
+            foreach (var image in pwImages)
+            {
+                var webClient = new WebClientWrapper();
+                var imageDownloader = new WebClientImageDownloader(webClient);
+                var manager = new AsyncDownloadManager(imageDownloader);
 
-            var tasks = manager.GenerateDownloadTasks(@"c:\wallpapers\"+ themeName , pwImages);
-            manager.RunTasks(tasks.ToArray());
+                var tasks = manager.GenerateDownloadTasks(themeDirectory, image);
+                taks.Add(tasks);
+            }
+            Task.WaitAll(taks.ToArray());
         }
     }
 }
