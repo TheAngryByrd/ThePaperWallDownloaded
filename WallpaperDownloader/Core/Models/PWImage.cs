@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 
 namespace Core.Models
@@ -10,6 +11,7 @@ namespace Core.Models
     {
         public string imageUrl { get; set; }
         public string imageName { get { return GetImageFileName(imageUrl); } }
+        public IProgress<DownloadProgressChangedEventArgs> progress { get; set; }
 
         public string GetImageFileName(string imageUrl)
         {

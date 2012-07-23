@@ -31,12 +31,12 @@ namespace WallpaperDownloader
         {
             this.BtnGetWallPaper = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
+            this.themeCheckBoxList = new System.Windows.Forms.CheckedListBox();
             this.checkAll = new System.Windows.Forms.Button();
             this.uncheckAll = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.flowLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.progressTable = new System.Windows.Forms.TableLayoutPanel();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,15 +59,15 @@ namespace WallpaperDownloader
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 0;
             // 
-            // checkedListBox1
+            // themeCheckBoxList
             // 
-            this.checkedListBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.themeCheckBoxList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Location = new System.Drawing.Point(0, 0);
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(163, 529);
-            this.checkedListBox1.TabIndex = 1;
+            this.themeCheckBoxList.FormattingEnabled = true;
+            this.themeCheckBoxList.Location = new System.Drawing.Point(0, 0);
+            this.themeCheckBoxList.Name = "themeCheckBoxList";
+            this.themeCheckBoxList.Size = new System.Drawing.Size(163, 529);
+            this.themeCheckBoxList.TabIndex = 1;
             // 
             // checkAll
             // 
@@ -106,25 +106,25 @@ namespace WallpaperDownloader
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.Controls.Add(this.checkedListBox1);
-            this.panel1.Controls.Add(this.flowLayoutPanel1);
+            this.panel1.Controls.Add(this.themeCheckBoxList);
+            this.panel1.Controls.Add(this.progressTable);
             this.panel1.Location = new System.Drawing.Point(12, 13);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(419, 540);
             this.panel1.TabIndex = 6;
             // 
-            // flowLayoutPanel1
+            // progressTable
             // 
-            this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.progressTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.flowLayoutPanel1.AutoScroll = true;
-            this.flowLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(169, 3);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(0, 0, 17, 0);
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(231, 530);
-            this.flowLayoutPanel1.TabIndex = 8;
+            this.progressTable.AutoScroll = true;
+            this.progressTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this.progressTable.Location = new System.Drawing.Point(169, 3);
+            this.progressTable.Name = "progressTable";
+            this.progressTable.Padding = new System.Windows.Forms.Padding(0, 0, 17, 0);
+            this.progressTable.Size = new System.Drawing.Size(231, 530);
+            this.progressTable.TabIndex = 8;
             // 
             // Form1
             // 
@@ -148,13 +148,13 @@ namespace WallpaperDownloader
 
         private System.Windows.Forms.Button BtnGetWallPaper;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.CheckedListBox checkedListBox1;
+        private System.Windows.Forms.CheckedListBox themeCheckBoxList;
         private System.Windows.Forms.Button checkAll;
         private System.Windows.Forms.Button uncheckAll;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Panel panel1;
 
-        private System.Windows.Forms.TableLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel progressTable;
       
     }
 }

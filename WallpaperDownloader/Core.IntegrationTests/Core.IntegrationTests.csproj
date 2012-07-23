@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="RssReaderShould.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThemeServiceShould.cs" />
     <Compile Include="WebClientImageDownloaderShould.cs" />
   </ItemGroup>
   <ItemGroup>

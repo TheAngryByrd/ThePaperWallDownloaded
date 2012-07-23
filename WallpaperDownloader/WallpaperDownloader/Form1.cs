@@ -23,9 +23,9 @@ namespace WallpaperDownloader
         {
             InitializeComponent();
 
-            var themeService = new ThemeService(new StringReader(WallpaperResource.Wallpaper));
+            var themeService = new ThemeService(WallpaperResource.Wallpaper);
             var themes = themeService.GetThemes();
-            this.checkedListBox1.Items.AddRange(themes.Cast<object>().ToArray());
+            this.themeCheckBoxList.Items.AddRange(themes.Cast<object>().ToArray());
         }
 
         private void EnableButtons(bool enabled)
@@ -41,57 +41,65 @@ namespace WallpaperDownloader
             EnableButtons(false);
            
             
-            List<Task> downloads = new List<Task>();
+            //List<Task> downloads = new List<Task>();
 
-            SemaphoreSlim semaphore = new SemaphoreSlim(2, 3); ;
+            //SemaphoreSlim semaphore = new SemaphoreSlim(2, 3); ;
           
-            foreach (Theme obj in this.checkedListBox1.CheckedItems)
-            {
-                await semaphore.WaitAsync();
+            //foreach (Theme obj in this.themeCheckBoxList.CheckedItems)
+            //{
+            //    await semaphore.WaitAsync();
 
-                var program = new Core.Program();
-                var task = Task.Run(async () =>{
-                    try
-                    {
-                        await program.Run(obj.Name, obj.FeedUrl);
-                    }
-                    finally
-                    {
-                        semaphore.Release();
-                    }
+            //    var program = new Core.Program();
+            //    var task = Task.Run(async () =>{
+            //        try
+            //        {
+            //            await program.Run(obj.Name, obj.FeedUrl);
+            //        }
+            //        finally
+            //        {
+            //            semaphore.Release();
+            //        }
                    
-                });
-                downloads.Add(task);
+            //    });
+            //    downloads.Add(task);
 
-            }
+            //}
 
-            await Task.WhenAll(downloads);
+            //await Task.WhenAll(downloads);
 
             EnableButtons(true);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < checkedListBox1.Items.Count; i++)
+            for (int i = 0; i < themeCheckBoxList.Items.Count; i++)
             {
-                checkedListBox1.SetItemChecked(i, true);
+                themeCheckBoxList.SetItemChecked(i, true);
             }
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < checkedListBox1.Items.Count; i++)
+            for (int i = 0; i < themeCheckBoxList.Items.Count; i++)
             {
-                checkedListBox1.SetItemChecked(i, false);
+                themeCheckBoxList.SetItemChecked(i, false);
             }
         }
 
         private async void button5_Click(object sender, EventArgs e)
         {
             //checkedListBox1.Visible = false;
+
+            var panel = new FlowLayoutPanel();
+            panel.AutoSize = true;
+            panel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            var label = new Label();
+            label.Text = "filenamelakjfoajwofijwfoijweaofjawf.jgp";
             var progressBar = new ProgressBar();
-            flowLayoutPanel1.Controls.Add(progressBar);
-            
+            panel.Controls.Add(progressBar);
+            panel.Controls.Add(label);
+            progressTable.Controls.Add(panel);
+            EnableButtons(false);
             var client = new WebClient();
             var dir = @"c:\testPlace\";
             var progress = new Progress<DownloadProgressChangedEventArgs>();
@@ -102,19 +110,23 @@ namespace WallpaperDownloader
 
                 
             };
-          
+
+
+            client.DownloadProgressChanged += (s, crazy) =>
+                {
+                    progressBar.Value = crazy.ProgressPercentage;
+                };
             using (client)
             {
-               // await client.DownloadFileTaskAsync("http://thepaperwall.com/wallpapers/people/big/big_584778739bace9b64fb91975340190ed2f64a51d.jpg", dir + "file.jpg", progress);
+                await client.DownloadFileTaskAsync("http://thepaperwall.com/wallpapers/people/big/big_584778739bace9b64fb91975340190ed2f64a51d.jpg", dir + "file.jpg", progress);
 
 
             }
+
+            EnableButtons(true);
         }
 
-        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
+       
 
 
         
