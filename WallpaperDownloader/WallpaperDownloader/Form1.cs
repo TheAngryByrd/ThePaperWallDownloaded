@@ -28,11 +28,18 @@ namespace WallpaperDownloader
             this.checkedListBox1.Items.AddRange(themes.Cast<object>().ToArray());
         }
 
+        private void EnableButtons(bool enabled)
+        {
+            BtnGetWallPaper.Enabled = enabled;
+            uncheckAll.Enabled = enabled;
+            checkAll.Enabled = enabled;
+        }
+
         private async void button1_Click(object sender, EventArgs e)
         {
+
+            EnableButtons(false);
            
-            
-            button1.Enabled = false;
             
             List<Task> downloads = new List<Task>();
 
@@ -60,7 +67,7 @@ namespace WallpaperDownloader
 
             await Task.WhenAll(downloads);
 
-            button1.Enabled = true;
+            EnableButtons(true);
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -81,22 +88,29 @@ namespace WallpaperDownloader
 
         private async void button5_Click(object sender, EventArgs e)
         {
+            //checkedListBox1.Visible = false;
+            var progressBar = new ProgressBar();
+            flowLayoutPanel1.Controls.Add(progressBar);
+
             var client = new WebClient();
             var dir = @"c:\testPlace\";
             var progress = new Progress<DownloadProgressChangedEventArgs>();
             Directory.CreateDirectory(dir);
             progress.ProgressChanged += (s, eventProgress) =>
             {
-                progressBar1.Value = eventProgress.ProgressPercentage;
+                progressBar.Value = eventProgress.ProgressPercentage;
 
                 
             };
-
+          
             using (client)
             {
-                await client.DownloadFileTaskAsync("http://thepaperwall.com/wallpapers/people/big/big_584778739bace9b64fb91975340190ed2f64a51d.jpg", dir +"file.jpg", progress);
+                await client.DownloadFileTaskAsync("http://thepaperwall.com/wallpapers/people/big/big_584778739bace9b64fb91975340190ed2f64a51d.jpg", dir + "file.jpg", progress);
+
+
             }
         }
+
 
         
 
