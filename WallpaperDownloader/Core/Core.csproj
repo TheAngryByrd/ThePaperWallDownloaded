@@ -67,6 +67,7 @@
     <Compile Include="Rss.cs" />
     <Compile Include="RssReader.cs" />
     <Compile Include="WallpaperFeed.cs" />
+    <Compile Include="WebClientExtensions.cs" />
     <Compile Include="WebClientImageDownloader.cs" />
   </ItemGroup>
   <ItemGroup>
