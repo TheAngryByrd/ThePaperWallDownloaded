@@ -13,7 +13,7 @@ using System.Windows.Forms;
 using Core;
 using Infrastructure.Models;
 using Infrastructure;
-using Infrastructure.Models;
+
 
 
 namespace WallpaperDownloader
@@ -22,19 +22,23 @@ namespace WallpaperDownloader
 
     public partial class Form1 : Form
     {
-        private readonly IPaperWallRssParser paperWallRssParser;
-        public Form1()
+        private readonly IPaperWallRssParser _paperWallRssParser;
+        private readonly IThemeService _themeService;
+        public virtual void Init()
         {
             InitializeComponent();
 
-            var themeService = new ThemeService(WallpaperResource.Wallpaper);
-            var themes = themeService.GetThemes();
+        
+            var themes = _themeService.GetThemes();
             this.themeCheckBoxList.Items.AddRange(themes.Cast<object>().ToArray());
         }
 
-        public Form1(IPaperWallRssParser paperWallRssParser)
+        public Form1(IThemeService themeService, IPaperWallRssParser paperWallRssParser)
         {
+            this._themeService = themeService;
+            this._paperWallRssParser = paperWallRssParser;
 
+            Init();
         }
 
         private void EnableButtons(bool enabled)
@@ -44,13 +48,13 @@ namespace WallpaperDownloader
             checkAll.Enabled = enabled;
         }
 
-        public async Task DownloadWallpapers()
+        public async Task DownloadWallpapers(IEnumerable<Theme> selectedThemes)
         {
 
             //Get all image url from theme rss
-            IEnumerable<Theme> selectedThemes = this.themeCheckBoxList.CheckedItems.Cast<Theme>();
 
-            List<PWImage> imageList = await paperWallRssParser.GetImages(selectedThemes);
+
+            List<PWImage> imageList = await _paperWallRssParser.GetImages(selectedThemes);
         }
 
     
@@ -61,7 +65,7 @@ namespace WallpaperDownloader
             EnableButtons(false);
 
 
-            await DownloadWallpapers();
+            await DownloadWallpapers(this.themeCheckBoxList.CheckedItems.Cast<Theme>());
 
             //List<Task> downloads = new List<Task>();
 

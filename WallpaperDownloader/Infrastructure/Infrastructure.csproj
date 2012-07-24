@@ -40,7 +40,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IPaperWallImageParser.cs" />
+    <Compile Include="IRssReader.cs" />
+    <Compile Include="IThemeService.cs" />
     <Compile Include="Models\PWImage.cs" />
+    <Compile Include="Models\Rss.cs" />
     <Compile Include="Models\Theme.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

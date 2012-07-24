@@ -62,7 +62,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>WallpaperResource.resx</DependentUpon>
     </Compile>
-    <Compile Include="Rss.cs" />
     <Compile Include="RssReader.cs" />
     <Compile Include="WallpaperFeed.cs" />
     <Compile Include="WebClientExtensions.cs" />

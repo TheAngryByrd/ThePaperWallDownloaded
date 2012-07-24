@@ -7,14 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Infrastructure.Models;
 using CsvHelper;
+using Infrastructure;
 
 namespace Core
 {
-    public class ThemeService
+    public class ThemeService : IThemeService
     {
 
-        private string _csv;
-        private Stream stream;
+
         private string themeCsv;
 
    

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Infrastructure.Models;
 
 namespace Core
 {
@@ -16,7 +17,7 @@ namespace Core
             var rssReader = new RssReader();
             var feed = rssReader.GetFeed(feedUrl);
             var parser = new PaperWallRssParser();
-            var pwImages = parser.GetImageUrls(feed);
+            var pwImages = new List<PWImage>();// parser.GetImageUrls(feed);
 
             var imageFilter = new ImageFilter();
 

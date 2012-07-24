@@ -5,26 +5,22 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Models;
 using HtmlAgilityPack;
+using Infrastructure;
+using System.Threading.Tasks;
 
 namespace Core
 {
-    public class PaperWallRssParser
+    public class PaperWallRssParser : IPaperWallRssParser
     {
-        public List<PWImage> GetImageUrls(rss feed)
+
+        public PaperWallRssParser()
         {
-            var images = new List<PWImage>();
-            HtmlDocument doc = new HtmlDocument();
-            foreach (var rssChannelItem in feed.channel.item)
-            {
-                var html = rssChannelItem.description;
-     
-                doc.LoadHtml(html);
-                var imageUrl = doc.DocumentNode.ChildNodes[1].Attributes[0].Value;
-                images.Add(new PWImage { imageUrl = imageUrl });
-            }
-            return images;
+
         }
 
-        
+        public Task<List<PWImage>> GetImages(IEnumerable<Theme> selectedThemes)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

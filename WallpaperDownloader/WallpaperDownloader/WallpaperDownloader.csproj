@@ -37,6 +37,9 @@
     <Reference Include="CsvHelper">
       <HintPath>..\packages\CsvHelper.1.5.0\lib\net20\CsvHelper.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
