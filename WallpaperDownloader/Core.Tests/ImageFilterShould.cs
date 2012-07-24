@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Core;
-using Core.Models;
+using Infrastructure.Models;
 
 namespace Core.Tests
 {

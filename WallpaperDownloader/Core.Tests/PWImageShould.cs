@@ -1,6 +1,6 @@
 ﻿using System;
 using Core;
-using Core.Models;
+using Infrastructure.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Core.Tests

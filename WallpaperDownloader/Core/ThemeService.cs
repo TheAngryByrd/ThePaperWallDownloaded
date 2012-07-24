@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Core.Models;
+using Infrastructure.Models;
 using CsvHelper;
 
 namespace Core

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Core.Models;
+using Infrastructure.Models;
+
 
 namespace Core
 {

@@ -11,7 +11,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Core;
-using Core.Models;
+using Infrastructure.Models;
+using Infrastructure;
+using Infrastructure.Models;
+
 
 namespace WallpaperDownloader
 {
@@ -19,6 +22,7 @@ namespace WallpaperDownloader
 
     public partial class Form1 : Form
     {
+        private readonly IPaperWallRssParser paperWallRssParser;
         public Form1()
         {
             InitializeComponent();
@@ -28,6 +32,11 @@ namespace WallpaperDownloader
             this.themeCheckBoxList.Items.AddRange(themes.Cast<object>().ToArray());
         }
 
+        public Form1(IPaperWallRssParser paperWallRssParser)
+        {
+
+        }
+
         private void EnableButtons(bool enabled)
         {
             BtnGetWallPaper.Enabled = enabled;
@@ -35,22 +44,36 @@ namespace WallpaperDownloader
             checkAll.Enabled = enabled;
         }
 
+        public async Task DownloadWallpapers()
+        {
+
+            //Get all image url from theme rss
+            IEnumerable<Theme> selectedThemes = this.themeCheckBoxList.CheckedItems.Cast<Theme>();
+
+            List<PWImage> imageList = await paperWallRssParser.GetImages(selectedThemes);
+        }
+
+    
+
         private async void button1_Click(object sender, EventArgs e)
         {
 
             EnableButtons(false);
-           
-            
+
+
+            await DownloadWallpapers();
+
             //List<Task> downloads = new List<Task>();
 
             //SemaphoreSlim semaphore = new SemaphoreSlim(2, 3); ;
-          
+
             //foreach (Theme obj in this.themeCheckBoxList.CheckedItems)
             //{
             //    await semaphore.WaitAsync();
 
             //    var program = new Core.Program();
-            //    var task = Task.Run(async () =>{
+            //    var task = Task.Run(async () =>
+            //    {
             //        try
             //        {
             //            await program.Run(obj.Name, obj.FeedUrl);
@@ -59,13 +82,13 @@ namespace WallpaperDownloader
             //        {
             //            semaphore.Release();
             //        }
-                   
+
             //    });
             //    downloads.Add(task);
 
             //}
 
-            //await Task.WhenAll(downloads);
+           // await Task.WhenAll(downloads);
 
             EnableButtons(true);
         }

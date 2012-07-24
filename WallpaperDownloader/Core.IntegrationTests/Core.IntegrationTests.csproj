@@ -60,6 +60,10 @@
       <Project>{6a5d555b-3165-4a84-ad7e-d9e7ae436474}</Project>
       <Name>Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
+      <Project>{73a2b0a8-24b1-473f-826c-3989578aca3c}</Project>
+      <Name>Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
