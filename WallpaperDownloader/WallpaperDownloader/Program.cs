@@ -33,6 +33,8 @@ namespace WallpaperDownloader
             kernel.Bind<IPaperWallRssParser>().To<PaperWallRssParser>();
             kernel.Bind<IRssReader>().To<RssReader>();
             kernel.Bind<IImageFilter>().To<ImageFilter>();
+            kernel.Bind<IAsyncDownloadManager>().To<AsyncDownloadManager>();
+
             return kernel;
         }
     }

@@ -18,10 +18,14 @@ namespace Core
            string fileName,
            IProgress<DownloadProgressChangedEventArgs> progress)
         {
-            wc.DownloadProgressChanged += (s, e) =>
+            if(progress != null)
             {
-                progress.Report(e);
-            };
+
+                wc.DownloadProgressChanged += (s, e) =>
+                {
+                    progress.Report(e);
+                };
+            }
 
             return wc.DownloadFileTaskAsync(address, fileName);
 

@@ -24,7 +24,8 @@ namespace WallpaperDownloader
     {
         private readonly IPaperWallRssParser _paperWallRssParser;
         private readonly IThemeService _themeService;
-        private  IImageFilter _imageFilter { get; set; }
+        private IAsyncDownloadManager _downloadManager;
+        private IImageFilter _imageFilter;
         public virtual void Init()
         {
             InitializeComponent();
@@ -34,11 +35,12 @@ namespace WallpaperDownloader
             this.themeCheckBoxList.Items.AddRange(themes.Cast<object>().ToArray());
         }
 
-        public Form1(IThemeService themeService, IPaperWallRssParser paperWallRssParser, IImageFilter imageFilter)
+        public Form1(IThemeService themeService, IPaperWallRssParser paperWallRssParser, IImageFilter imageFilter, IAsyncDownloadManager asyncDownloadManager)
         {
             this._themeService = themeService;
             this._paperWallRssParser = paperWallRssParser;
             this._imageFilter = imageFilter;
+            this._downloadManager = asyncDownloadManager;
             Init();
         }
 
@@ -66,41 +68,16 @@ namespace WallpaperDownloader
             }
             imageList =_imageFilter.RemovePreviouslyDownloadedImages(imageList, alreadyDownloadedImages);
 
-            SemaphoreSlim semaphore = new SemaphoreSlim(10, 15);
+ 
 
 
-                 imageList.ForEach(a => SetupProgress(a));
-
-
-            var downloads = new List<Task>();
-            foreach (var image in imageList)
-            {
-                await semaphore.WaitAsync();
-
-                var task = Task.Factory.StartNew(async () =>
-                {
-                    try
-                    {
-                        using (WebClient wc = new WebClient())
-                        {
-                            await wc.DownloadFileTaskAsync(image.imageUrl, Path.Combine(@"c:\wallpapers", image.Theme.Name, image.imageName), image.progress);
-                        }
-                    }
-                    finally
-                    {
-                        semaphore.Release();
-                    }
-
-                });
-
-                downloads.Add(task);
              
-            }
 
-            if (downloads.Any())
-                await Task.WhenAll(downloads);
+                 await _downloadManager.DownloadImages(@"c:\wallpapers",imageList);
 
         }
+
+
 
         private void SetupProgress(PWImage image)
         {

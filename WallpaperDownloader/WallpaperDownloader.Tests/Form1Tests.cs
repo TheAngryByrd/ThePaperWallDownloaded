@@ -20,11 +20,13 @@ namespace WallpaperDownloader.Tests
             var themeSevice = MockRepository.GenerateStub<IThemeService>();
             themeSevice.Stub(a => a.GetThemes()).Return(new List<Theme>());
             var paperWallRssParser = MockRepository.GenerateStub<IPaperWallRssParser>();
+            var imageFilter = MockRepository.GenerateStub<IImageFilter>();
+            var downloader = MockRepository.GenerateStub<IAsyncDownloadManager>();
             var themes = new List<Theme>();
             paperWallRssParser.Expect(a => a.GetImages(Arg<List<Theme>>.Is.Equal(themes)));
 
 
-            var form = MockRepository.GeneratePartialMock<Form1>(themeSevice, paperWallRssParser);
+            var form = MockRepository.GeneratePartialMock<Form1>(themeSevice, paperWallRssParser, imageFilter,downloader);
            
 
             paperWallRssParser.VerifyAllExpectations();

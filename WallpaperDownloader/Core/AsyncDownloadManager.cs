@@ -1,30 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Infrastructure.Models;
+using Infrastructure;
 
+namespace Core{
 
-namespace Core
-{
-    public class AsyncDownloadManager
+    public class AsyncDownloadManager : IAsyncDownloadManager
     {
-        private IImageDownloader _imageDownloader { get; set; }
-        public AsyncDownloadManager(IImageDownloader imageDownloader)
+        public async Task DownloadImages(string wallpaperPath, List<PWImage> imageList)
         {
-            _imageDownloader = imageDownloader;
+            DownloadImages(wallpaperPath, imageList, null);
         }
 
-        public Task GenerateDownloadTasks(string directory, PWImage image)
-        {
 
-            return Task.Factory.StartNew(() => _imageDownloader.Download(directory +"\\" + image.imageName, image.imageUrl));
-        }
-
-        public void RunTasks(Task[] tasks)
+        public async Task DownloadImages(string p, List<PWImage> imageList, Action<PWImage> SetupProgress)
         {
-            Task.WaitAll(tasks);
+            SemaphoreSlim semaphore = new SemaphoreSlim(10, 15);
+            var downloads = new List<Task>();
+            foreach (var image in imageList)
+            {
+                await semaphore.WaitAsync();
+
+                var task = Task.Factory.StartNew(async () =>
+                {
+                    try
+                    {
+                        using (WebClient wc = new WebClient())
+                        {
+                            if (SetupProgress != null)
+                                SetupProgress(image);
+
+                            await wc.DownloadFileTaskAsync(image.imageUrl, Path.Combine(@"c:\wallpapers", image.Theme.Name, image.imageName), image.progress);
+                        }
+                    }
+                    finally
+                    {
+                        semaphore.Release();
+                    }
+
+                });
+
+                downloads.Add(task);
+
+            }
+
+            if (downloads.Any())
+                await Task.WhenAll(downloads);
         }
     }
 }
