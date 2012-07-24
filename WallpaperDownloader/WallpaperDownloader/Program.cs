@@ -31,7 +31,8 @@ namespace WallpaperDownloader
             
             kernel.Bind<IThemeService>().To<ThemeService>().WithConstructorArgument("themeCsv",WallpaperResource.Wallpaper);
             kernel.Bind<IPaperWallRssParser>().To<PaperWallRssParser>();
-
+            kernel.Bind<IRssReader>().To<RssReader>();
+            kernel.Bind<IImageFilter>().To<ImageFilter>();
             return kernel;
         }
     }

@@ -119,7 +119,7 @@ namespace WallpaperDownloader
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.progressTable.AutoScroll = true;
-            this.progressTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this.progressTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 214F));
             this.progressTable.Location = new System.Drawing.Point(169, 3);
             this.progressTable.Name = "progressTable";
             this.progressTable.Padding = new System.Windows.Forms.Padding(0, 0, 17, 0);

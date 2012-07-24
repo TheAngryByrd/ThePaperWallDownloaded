@@ -12,15 +12,29 @@ namespace Core
 {
     public class PaperWallRssParser : IPaperWallRssParser
     {
+        private IRssReader rssReader;
 
-        public PaperWallRssParser()
+
+  
+
+        public PaperWallRssParser(IRssReader rssReader)
         {
-
+            // TODO: Complete member initialization
+            this.rssReader = rssReader;
         }
 
-        public Task<List<PWImage>> GetImages(IEnumerable<Theme> selectedThemes)
+        public async Task<List<PWImage>> GetImages(IEnumerable<Theme> selectedThemes)
         {
-            throw new NotImplementedException();
+            List<PWImage> images = new List<PWImage>();
+            foreach (Theme theme in selectedThemes)
+            {
+                var rss = await rssReader.GetFeed(theme.FeedUrl);
+                var tempImages = rssReader.GetImageUrls(rss);
+                tempImages.ForEach(i => i.Theme = theme);
+                images.AddRange(tempImages);
+            }
+
+            return images;
         }
     }
 }

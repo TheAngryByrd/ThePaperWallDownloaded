@@ -11,8 +11,8 @@ namespace Infrastructure.Models
     {
         public string imageUrl { get; set; }
         public string imageName { get { return GetImageFileName(imageUrl); } }
-        public string Theme { get; set; }
-        public IProgress<DownloadProgressChangedEventArgs> progress { get; set; }
+        public Theme Theme { get; set; }
+        public Progress<DownloadProgressChangedEventArgs> progress { get; set; }
 
         public string GetImageFileName(string imageUrl)
         {

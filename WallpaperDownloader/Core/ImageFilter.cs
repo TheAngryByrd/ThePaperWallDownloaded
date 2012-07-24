@@ -4,11 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Infrastructure.Models;
-
+using Infrastructure;
 
 namespace Core
 {
-    public class ImageFilter
+    public class ImageFilter : IImageFilter
     {
         public List<PWImage> RemovePreviouslyDownloadedImages(List<PWImage> images, IEnumerable<FileInfo> fileInfoList)
         {

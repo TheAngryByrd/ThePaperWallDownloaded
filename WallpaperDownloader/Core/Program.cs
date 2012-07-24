@@ -13,30 +13,30 @@ namespace Core
         
         public async Task Run(string themeName, string feedUrl)
         {
-             string themeDirectory = @"c:\wallpapers\" + themeName;
-            var rssReader = new RssReader();
-            var feed = rssReader.GetFeed(feedUrl);
-            var parser = new PaperWallRssParser();
-            var pwImages = new List<PWImage>();// parser.GetImageUrls(feed);
+            // string themeDirectory = @"c:\wallpapers\" + themeName;
+            //var rssReader = new RssReader();
+            //var feed = rssReader.GetFeed(feedUrl);
+            //var parser = new PaperWallRssParser();
+            //var pwImages = new List<PWImage>();// parser.GetImageUrls(feed);
 
-            var imageFilter = new ImageFilter();
+            //var imageFilter = new ImageFilter();
 
-            var dir = Directory.CreateDirectory(themeDirectory);
+            //var dir = Directory.CreateDirectory(themeDirectory);
 
             
 
-            pwImages = imageFilter.RemovePreviouslyDownloadedImages(pwImages, dir.EnumerateFiles());
-            List<Task> taks = new List<Task>();
-            foreach (var image in pwImages)
-            {
-                var webClient = new WebClientWrapper();
-                var imageDownloader = new WebClientImageDownloader(webClient);
-                var manager = new AsyncDownloadManager(imageDownloader);
+            //pwImages = imageFilter.RemovePreviouslyDownloadedImages(pwImages, dir.EnumerateFiles());
+            //List<Task> taks = new List<Task>();
+            //foreach (var image in pwImages)
+            //{
+            //    var webClient = new WebClientWrapper();
+            //    var imageDownloader = new WebClientImageDownloader(webClient);
+            //    var manager = new AsyncDownloadManager(imageDownloader);
 
-                var tasks = manager.GenerateDownloadTasks(themeDirectory, image);
-                taks.Add(tasks);
-            }
-            await Task.WhenAll(taks);
+            //    var tasks = manager.GenerateDownloadTasks(themeDirectory, image);
+            //    taks.Add(tasks);
+            //}
+            //await Task.WhenAll(taks);
             
         }
     }

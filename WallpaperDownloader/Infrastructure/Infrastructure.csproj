@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IImageFilter.cs" />
     <Compile Include="IPaperWallImageParser.cs" />
     <Compile Include="IRssReader.cs" />
     <Compile Include="IThemeService.cs" />

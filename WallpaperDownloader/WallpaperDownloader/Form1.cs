@@ -24,6 +24,7 @@ namespace WallpaperDownloader
     {
         private readonly IPaperWallRssParser _paperWallRssParser;
         private readonly IThemeService _themeService;
+        private  IImageFilter _imageFilter { get; set; }
         public virtual void Init()
         {
             InitializeComponent();
@@ -33,11 +34,11 @@ namespace WallpaperDownloader
             this.themeCheckBoxList.Items.AddRange(themes.Cast<object>().ToArray());
         }
 
-        public Form1(IThemeService themeService, IPaperWallRssParser paperWallRssParser)
+        public Form1(IThemeService themeService, IPaperWallRssParser paperWallRssParser, IImageFilter imageFilter)
         {
             this._themeService = themeService;
             this._paperWallRssParser = paperWallRssParser;
-
+            this._imageFilter = imageFilter;
             Init();
         }
 
@@ -55,8 +56,106 @@ namespace WallpaperDownloader
 
 
             List<PWImage> imageList = await _paperWallRssParser.GetImages(selectedThemes);
+            var alreadyDownloadedImages = new List<FileInfo>();
+            foreach (var theme in selectedThemes)
+            {
+                var wallPaperThemePath = Path.Combine(@"c:\wallpapers", theme.Name);
+                var dir = Directory.CreateDirectory(wallPaperThemePath);
+                alreadyDownloadedImages.AddRange(dir.EnumerateFiles());
+
+            }
+            imageList =_imageFilter.RemovePreviouslyDownloadedImages(imageList, alreadyDownloadedImages);
+
+            SemaphoreSlim semaphore = new SemaphoreSlim(10, 15);
+
+
+                 imageList.ForEach(a => SetupProgress(a));
+
+
+            var downloads = new List<Task>();
+            foreach (var image in imageList)
+            {
+                await semaphore.WaitAsync();
+
+                var task = Task.Factory.StartNew(async () =>
+                {
+                    try
+                    {
+                        using (WebClient wc = new WebClient())
+                        {
+                            await wc.DownloadFileTaskAsync(image.imageUrl, Path.Combine(@"c:\wallpapers", image.Theme.Name, image.imageName), image.progress);
+                        }
+                    }
+                    finally
+                    {
+                        semaphore.Release();
+                    }
+
+                });
+
+                downloads.Add(task);
+             
+            }
+
+            if (downloads.Any())
+                await Task.WhenAll(downloads);
+
         }
 
+        private void SetupProgress(PWImage image)
+        {
+            var label = new Label();
+            label.AutoSize = true;
+            label.Text = image.imageName;
+
+            var progressBar = new ProgressBar();
+
+            image.progress = new Progress<DownloadProgressChangedEventArgs>();
+            image.progress.ProgressChanged += (s, e) =>
+            {
+                progressBar.Value = e.ProgressPercentage;
+            };
+
+
+            var panel = new FlowLayoutPanel();
+            panel.AutoSize = true;
+            panel.Controls.Add(progressBar);
+            panel.Controls.Add(label);
+
+
+            progressTable.Controls.Add(panel);
+            progressTable.Refresh();
+
+            //var ui = TaskScheduler.FromCurrentSynchronizationContext();
+
+            //return  Task.Factory.StartNew(() =>
+            //{
+
+            //    var label = new Label();
+            //    label.AutoSize = true;
+            //    label.Text = image.imageName;
+
+            //    var progressBar = new ProgressBar();
+
+            //    image.progress = new Progress<DownloadProgressChangedEventArgs>();
+            //    image.progress.ProgressChanged += (s, e) =>
+            //    {
+            //        progressBar.Value = e.ProgressPercentage;
+            //    };
+
+
+            //    var panel = new FlowLayoutPanel();
+            //    panel.AutoSize = true;
+            //    panel.Controls.Add(progressBar);
+            //    panel.Controls.Add(label);
+
+
+            //    progressTable.Controls.Add(panel);
+            //    progressTable.Refresh();
+
+            //}, CancellationToken.None, TaskCreationOptions.PreferFairness, ui);
+            
+        }
     
 
         private async void button1_Click(object sender, EventArgs e)
@@ -64,35 +163,7 @@ namespace WallpaperDownloader
 
             EnableButtons(false);
 
-
             await DownloadWallpapers(this.themeCheckBoxList.CheckedItems.Cast<Theme>());
-
-            //List<Task> downloads = new List<Task>();
-
-            //SemaphoreSlim semaphore = new SemaphoreSlim(2, 3); ;
-
-            //foreach (Theme obj in this.themeCheckBoxList.CheckedItems)
-            //{
-            //    await semaphore.WaitAsync();
-
-            //    var program = new Core.Program();
-            //    var task = Task.Run(async () =>
-            //    {
-            //        try
-            //        {
-            //            await program.Run(obj.Name, obj.FeedUrl);
-            //        }
-            //        finally
-            //        {
-            //            semaphore.Release();
-            //        }
-
-            //    });
-            //    downloads.Add(task);
-
-            //}
-
-           // await Task.WhenAll(downloads);
 
             EnableButtons(true);
         }
@@ -153,12 +224,13 @@ namespace WallpaperDownloader
             EnableButtons(true);
         }
 
-       
 
 
-        
 
-        
+
+
+
+
     }
 
 
