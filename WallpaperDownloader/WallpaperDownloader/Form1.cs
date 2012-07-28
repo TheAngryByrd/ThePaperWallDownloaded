@@ -68,14 +68,13 @@ namespace WallpaperDownloader
 
             }
             imageList =_imageFilter.RemovePreviouslyDownloadedImages(imageList, alreadyDownloadedImages);
-            var ui =TaskScheduler.FromCurrentSynchronizationContext();
-            var downloads = new List<Task>();
 
 
 
 
             await _downloadManager.DownloadImages(mainWallpaperDir, imageList, SetupProgress, TaskScheduler.FromCurrentSynchronizationContext());
-
+            label1.Text = string.Format("{0} images downloaded", imageList.Count);
+            label1.Visible = true;
         }
 
 
@@ -131,6 +130,12 @@ namespace WallpaperDownloader
                 themeCheckBoxList.SetItemChecked(i, false);
             }
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+      
 
 
 

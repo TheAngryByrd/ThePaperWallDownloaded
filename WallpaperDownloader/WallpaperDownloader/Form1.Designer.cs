@@ -36,13 +36,15 @@ namespace WallpaperDownloader
             this.uncheckAll = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.progressTable = new System.Windows.Forms.TableLayoutPanel();
+            this.labelDownloaded = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // BtnGetWallPaper
             // 
             this.BtnGetWallPaper.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtnGetWallPaper.Location = new System.Drawing.Point(437, 530);
+            this.BtnGetWallPaper.Location = new System.Drawing.Point(489, 530);
             this.BtnGetWallPaper.Name = "BtnGetWallPaper";
             this.BtnGetWallPaper.Size = new System.Drawing.Size(91, 23);
             this.BtnGetWallPaper.TabIndex = 0;
@@ -71,7 +73,7 @@ namespace WallpaperDownloader
             // checkAll
             // 
             this.checkAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkAll.Location = new System.Drawing.Point(453, 13);
+            this.checkAll.Location = new System.Drawing.Point(505, 13);
             this.checkAll.Name = "checkAll";
             this.checkAll.Size = new System.Drawing.Size(75, 23);
             this.checkAll.TabIndex = 2;
@@ -82,7 +84,7 @@ namespace WallpaperDownloader
             // uncheckAll
             // 
             this.uncheckAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.uncheckAll.Location = new System.Drawing.Point(453, 42);
+            this.uncheckAll.Location = new System.Drawing.Point(505, 42);
             this.uncheckAll.Name = "uncheckAll";
             this.uncheckAll.Size = new System.Drawing.Size(75, 23);
             this.uncheckAll.TabIndex = 3;
@@ -99,7 +101,7 @@ namespace WallpaperDownloader
             this.panel1.Controls.Add(this.progressTable);
             this.panel1.Location = new System.Drawing.Point(12, 13);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(419, 540);
+            this.panel1.Size = new System.Drawing.Size(428, 540);
             this.panel1.TabIndex = 6;
             // 
             // progressTable
@@ -113,23 +115,52 @@ namespace WallpaperDownloader
             this.progressTable.Location = new System.Drawing.Point(169, 3);
             this.progressTable.Name = "progressTable";
             this.progressTable.Padding = new System.Windows.Forms.Padding(0, 0, 17, 0);
-            this.progressTable.Size = new System.Drawing.Size(231, 530);
+            this.progressTable.Size = new System.Drawing.Size(240, 530);
             this.progressTable.TabIndex = 8;
+            // 
+            // labelDownloaded
+            // 
+            this.labelDownloaded.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelDownloaded.AutoSize = true;
+            this.labelDownloaded.Location = new System.Drawing.Point(533, 135);
+            this.labelDownloaded.Margin = new System.Windows.Forms.Padding(3, 0, 50, 0);
+            this.labelDownloaded.Name = "labelDownloaded";
+            this.labelDownloaded.Size = new System.Drawing.Size(0, 13);
+            this.labelDownloaded.TabIndex = 7;
+            this.labelDownloaded.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelDownloaded.UseMnemonic = false;
+            this.labelDownloaded.Visible = false;
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(455, 371);
+            this.label1.Margin = new System.Windows.Forms.Padding(0, 0, 10, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "label1";
+            this.label1.Visible = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(540, 565);
+            this.ClientSize = new System.Drawing.Size(592, 565);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.labelDownloaded);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.uncheckAll);
             this.Controls.Add(this.checkAll);
             this.Controls.Add(this.BtnGetWallPaper);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -143,6 +174,8 @@ namespace WallpaperDownloader
         private System.Windows.Forms.Panel panel1;
 
         private System.Windows.Forms.TableLayoutPanel progressTable;
+        private Label labelDownloaded;
+        private Label label1;
       
     }
 }
