@@ -13,45 +13,42 @@ namespace Core{
 
     public class AsyncDownloadManager : IAsyncDownloadManager
     {
-        public async Task DownloadImages(string wallpaperPath, List<PWImage> imageList)
-        {
-            DownloadImages(wallpaperPath, imageList, null);
-        }
 
 
-        public async Task DownloadImages(string p, List<PWImage> imageList, Action<PWImage> SetupProgress)
+
+        public async Task DownloadImages(string mainWallpaperDir, List<PWImage> imageList, Action<PWImage, string> SetupProgress, TaskScheduler scheduler)
         {
-            SemaphoreSlim semaphore = new SemaphoreSlim(10, 15);
             var downloads = new List<Task>();
+
+            SemaphoreSlim semaphore = new SemaphoreSlim(15);
             foreach (var image in imageList)
             {
                 await semaphore.WaitAsync();
+                var localImage = image;
+                var path = Path.Combine(mainWallpaperDir, localImage.Theme.Name, localImage.imageName);
+                
 
-                var task = Task.Factory.StartNew(async () =>
-                {
-                    try
-                    {
-                        using (WebClient wc = new WebClient())
-                        {
-                            if (SetupProgress != null)
-                                SetupProgress(image);
-
-                            await wc.DownloadFileTaskAsync(image.imageUrl, Path.Combine(@"c:\wallpapers", image.Theme.Name, image.imageName), image.progress);
-                        }
-                    }
-                    finally
-                    {
-                        semaphore.Release();
-                    }
-
-                });
-
-                downloads.Add(task);
+                downloads.Add(DownloadImage(image, path, SetupProgress, () => semaphore.Release(), scheduler));
 
             }
-
-            if (downloads.Any())
+            if(downloads.Any())
                 await Task.WhenAll(downloads);
+        }
+
+        public async Task DownloadImage(PWImage image, string path, Action<PWImage, string> SetupProgress, Action endTask, TaskScheduler scheduler)
+        {
+            await Task.Factory.StartNew(() =>
+            {
+                SetupProgress(image, path);
+            }, CancellationToken.None, TaskCreationOptions.None, scheduler);
+
+            using (WebClient wc = new WebClient())
+            {
+
+                await wc.DownloadFileTaskAsync(image.imageUrl, path, image.progress);
+
+            }
+            endTask();
         }
     }
 }

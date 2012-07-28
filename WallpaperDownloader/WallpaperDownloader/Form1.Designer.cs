@@ -34,7 +34,6 @@ namespace WallpaperDownloader
             this.themeCheckBoxList = new System.Windows.Forms.CheckedListBox();
             this.checkAll = new System.Windows.Forms.Button();
             this.uncheckAll = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.progressTable = new System.Windows.Forms.TableLayoutPanel();
             this.panel1.SuspendLayout();
@@ -91,16 +90,6 @@ namespace WallpaperDownloader
             this.uncheckAll.UseVisualStyleBackColor = true;
             this.uncheckAll.Click += new System.EventHandler(this.button4_Click);
             // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(453, 163);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 23);
-            this.button5.TabIndex = 5;
-            this.button5.Text = "button5";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
             // panel1
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -119,6 +108,7 @@ namespace WallpaperDownloader
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.progressTable.AutoScroll = true;
+            this.progressTable.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.progressTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 214F));
             this.progressTable.Location = new System.Drawing.Point(169, 3);
             this.progressTable.Name = "progressTable";
@@ -133,7 +123,6 @@ namespace WallpaperDownloader
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(540, 565);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.button5);
             this.Controls.Add(this.uncheckAll);
             this.Controls.Add(this.checkAll);
             this.Controls.Add(this.BtnGetWallPaper);
@@ -151,7 +140,6 @@ namespace WallpaperDownloader
         private System.Windows.Forms.CheckedListBox themeCheckBoxList;
         private System.Windows.Forms.Button checkAll;
         private System.Windows.Forms.Button uncheckAll;
-        private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Panel panel1;
 
         private System.Windows.Forms.TableLayoutPanel progressTable;

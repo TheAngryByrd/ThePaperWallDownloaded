@@ -27,7 +27,27 @@ namespace Core
                 };
             }
 
+         
             return wc.DownloadFileTaskAsync(address, fileName);
+
+        }
+
+        public static void DownloadFile(
+           this WebClient wc,
+           string address,
+           string fileName,
+           IProgress<DownloadProgressChangedEventArgs> progress)
+        {
+            if (progress != null)
+            {
+
+                wc.DownloadProgressChanged += (s, e) =>
+                {
+                    progress.Report(e);
+                };
+            }
+
+             wc.DownloadFile(address, fileName);
 
         }
 

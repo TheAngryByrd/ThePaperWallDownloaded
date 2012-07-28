@@ -4,10 +4,6 @@ namespace Infrastructure
 {
     public interface IAsyncDownloadManager
     {
-        System.Threading.Tasks.Task DownloadImages(string wallpaperPath, System.Collections.Generic.List<Infrastructure.Models.PWImage> imageList);
-
-        System.Threading.Tasks.Task DownloadImages(string p, System.Collections.Generic.List<Models.PWImage> imageList, Action<PWImage> SetupProgress);
-
-
+        System.Threading.Tasks.Task DownloadImages(string mainWallpaperDir, System.Collections.Generic.List<Infrastructure.Models.PWImage> imageList, Action<Infrastructure.Models.PWImage,string> SetupProgress, System.Threading.Tasks.TaskScheduler ui);
     }
 }
