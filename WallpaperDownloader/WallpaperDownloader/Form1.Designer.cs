@@ -29,6 +29,8 @@ namespace WallpaperDownloader
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.BtnGetWallPaper = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.themeCheckBoxList = new System.Windows.Forms.CheckedListBox();
@@ -38,6 +40,8 @@ namespace WallpaperDownloader
             this.progressTable = new System.Windows.Forms.TableLayoutPanel();
             this.labelDownloaded = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.DownloadTimer = new System.Windows.Forms.Timer(this.components);
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -111,7 +115,7 @@ namespace WallpaperDownloader
             | System.Windows.Forms.AnchorStyles.Right)));
             this.progressTable.AutoScroll = true;
             this.progressTable.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.progressTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 214F));
+            this.progressTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 223F));
             this.progressTable.Location = new System.Drawing.Point(169, 3);
             this.progressTable.Name = "progressTable";
             this.progressTable.Padding = new System.Windows.Forms.Padding(0, 0, 17, 0);
@@ -143,6 +147,19 @@ namespace WallpaperDownloader
             this.label1.Text = "label1";
             this.label1.Visible = false;
             // 
+            // DownloadTimer
+            // 
+            this.DownloadTimer.Enabled = true;
+            this.DownloadTimer.Interval = 21600000;
+            this.DownloadTimer.Tick += new System.EventHandler(this.DownloadTimer_Tick);
+            // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+            this.notifyIcon1.Text = "ThePaperWall";
+            this.notifyIcon1.Visible = true;
+            this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -157,12 +174,15 @@ namespace WallpaperDownloader
             this.Controls.Add(this.BtnGetWallPaper);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
+
+      
 
         #endregion
 
@@ -176,6 +196,8 @@ namespace WallpaperDownloader
         private System.Windows.Forms.TableLayoutPanel progressTable;
         private Label labelDownloaded;
         private Label label1;
+        private Timer DownloadTimer;
+        private NotifyIcon notifyIcon1;
       
     }
 }

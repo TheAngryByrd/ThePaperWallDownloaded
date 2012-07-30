@@ -27,14 +27,31 @@ namespace WallpaperDownloader
         private readonly IThemeService _themeService;
         private IAsyncDownloadManager _downloadManager;
         private IImageFilter _imageFilter;
+        private List<Theme> _themes;
+        private bool _canShow = false;
+
         public virtual void Init()
         {
             InitializeComponent();
 
         
-            var themes = _themeService.GetThemes();
-            this.themeCheckBoxList.Items.AddRange(themes.Cast<object>().ToArray());
+            _themes = _themeService.GetThemes();
+            this.themeCheckBoxList.Items.AddRange(_themes.Cast<object>().ToArray());
         }
+
+        protected override void SetVisibleCore(bool value)
+        {
+            if (_canShow)
+            {
+                base.SetVisibleCore(value);
+            }
+            else
+            {
+                base.SetVisibleCore(false);
+            }
+        }
+
+        
 
         public Form1(IThemeService themeService, IPaperWallRssParser paperWallRssParser, IImageFilter imageFilter, IAsyncDownloadManager asyncDownloadManager)
         {
@@ -43,6 +60,10 @@ namespace WallpaperDownloader
             this._imageFilter = imageFilter;
             this._downloadManager = asyncDownloadManager;
             Init();
+            DownloadTimer_Tick(this, null);
+            
+
+
         }
 
         private void EnableButtons(bool enabled)
@@ -54,8 +75,6 @@ namespace WallpaperDownloader
 
         public async Task DownloadWallpapers(string mainWallpaperDir, IEnumerable<Theme> selectedThemes)
         {
-
-            //Get all image url from theme rss
 
 
             List<PWImage> imageList = await _paperWallRssParser.GetImages(selectedThemes);
@@ -73,8 +92,12 @@ namespace WallpaperDownloader
 
 
             await _downloadManager.DownloadImages(mainWallpaperDir, imageList, SetupProgress, TaskScheduler.FromCurrentSynchronizationContext());
-            label1.Text = string.Format("{0} images downloaded", imageList.Count);
-            label1.Visible = true;
+
+                notifyIcon1.BalloonTipText = string.Format("{0} images downloaded", imageList.Count);
+                notifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
+                notifyIcon1.BalloonTipTitle = "WallpapersDownloaded";
+                notifyIcon1.ShowBalloonTip(500);
+            
         }
 
 
@@ -109,9 +132,16 @@ namespace WallpaperDownloader
 
         private async void button1_Click(object sender, EventArgs e)
         {
+            await DownloadEvent();
+
+            
+        }
+
+        private async Task DownloadEvent()
+        {
 
             EnableButtons(false);
-            await DownloadWallpapers(@"c:\wallpapers",this.themeCheckBoxList.CheckedItems.Cast<Theme>());
+            await DownloadWallpapers(@"c:\wallpapers", this.themeCheckBoxList.CheckedItems.Cast<Theme>());
             EnableButtons(true);
         }
 
@@ -131,18 +161,29 @@ namespace WallpaperDownloader
             }
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+
+
+        private async void DownloadTimer_Tick(object sender, EventArgs e)
         {
-
+            EnableButtons(false);
+            await DownloadWallpapers(@"c:\wallpapers", _themes);
+            EnableButtons(true);
         }
-      
 
 
+        void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.Hide();
 
+            e.Cancel = true; // this cancels the close event.
+        }
 
-
-
-
+        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            this._canShow = true;
+            this.Show();
+            this.WindowState = System.Windows.Forms.FormWindowState.Normal;
+        }
 
     }
 
